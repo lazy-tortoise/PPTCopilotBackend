@@ -12,7 +12,9 @@ for root, dirs, files in os.walk("."):
     if "node_modules" in dirs:
         dirs.remove("node_modules")
     for file in files:
+        # 只处理.vue、.ts、.js和.go文件
         if file.endswith(".vue") or file.endswith(".ts") or file.endswith(".js") or file.endswith(".go"):
+            # 读取文件内容
             with open(os.path.join(root, file), "r+", encoding="utf-8") as f:
                 print("正在处理文件:", os.path.join(root, file))
                 # 将"{{server_ip}}"替换为"SERVER_IP"

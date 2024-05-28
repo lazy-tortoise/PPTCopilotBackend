@@ -93,7 +93,7 @@ func RequestGpt(prompt string, genXmlType interface{}) (string, error) {
 	body.Temperature = 0.7
 
 	req_url := conf.GetGptApiUrl()
-	req.SetProxyUrl("http://host.docker.internal:7890")
+	//req.SetProxyUrl("http://host.docker.internal:7890")
 
 	// 最多尝试2次
 	retryCount := 0

@@ -1,3 +1,5 @@
 app
 lastupdate.tmp
 .idea
+/vendor/
+/static/project

@@ -3,9 +3,11 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/beego/beego/v2/client/orm"
+	"github.com/joho/godotenv"
 )
 
 func jsonObject2string(obj JsonObject) string {
@@ -18,12 +20,20 @@ func jsonObject2string(obj JsonObject) string {
 
 // 初始化数据表
 func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	// 获取环境变量
 	mysqlHost := os.Getenv("MYSQL_HOST")
 	mysqlPort := os.Getenv("MYSQL_PORT")
 	fmt.Println("MYSQL_HOST: ", mysqlHost)
 	fmt.Println("MYSQL_PORT: ", mysqlPort)
-	orm.RegisterDataBase("default", "mysql", "root:admin@tcp("+mysqlHost+":"+mysqlPort+")/now_db?charset=utf8&loc=Local")
+	mysqlAdmin := os.Getenv("MYSQL_ADMIN")
+	mysqlPassword := os.Getenv("MYSQL_PASSWORD")
+	mysqlDb := os.Getenv("MYSQL_DB")
+	orm.RegisterDataBase("default", "mysql", fmt.Sprintf("%s:%s@tcp("+mysqlHost+":"+mysqlPort+")/%s?charset=utf8&loc=Local", mysqlAdmin,
+		mysqlPassword, mysqlDb))
 
 	// 注册定义的model
 	orm.RegisterModel(new(Outline))
